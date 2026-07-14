@@ -1,5 +1,4 @@
 import os
-import argparse
 import time
 import re
 import requests
@@ -118,11 +117,7 @@ def process_filings_data(filings_data, dir_name, cik, headers, processed_years):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="SEC EDGAR 10-K Downloader")
-    parser.add_argument("--ticker", type=str, required=True, help="Stock ticker (e.g. BRK.B, AAPL)")
-    args = parser.parse_args()
-    
-    ticker = args.ticker.upper()
+    ticker = input("다운로드할 미국 주식 티커를 입력하세요 (예: AAPL): ").strip().upper()
 
     # 1. 환경 변수 및 헤더 로드
     load_dotenv()
@@ -199,4 +194,9 @@ def main():
         print(f"\n최종 완료! 총 {len(processed_years)}년 치의 연례보고서 다운로드 완료.")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"\n예상치 못한 에러가 발생했습니다: {e}")
+    finally:
+        input("\n작업이 완료되었습니다. 엔터 키를 누르면 종료됩니다...")
